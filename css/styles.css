@@ -1,0 +1,33 @@
+:root {
+    /* light mode */
+    --background: #49656e;
+    --dark: #994242;
+    --light: #c2a57f;
+    --accent: #aac5e2;
+}
+
+body {
+    background-color: var(--background);
+    margin: 0;
+}
+
+header {
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+#darkLightButton {
+    all: unset;
+    width: fit-content;
+    height: fit-content;
+}
+
+#darkLightIcon {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 2em;
+}
+
+#darkLightIcon:hover {
+    border: 2px solid var(--accent);
+}

@@ -7,7 +7,31 @@
         <link rel='stylesheet' href='css/styles.css'>
     </head>
     <body>
-        
+        <!-- Navigation bar -->
+        <header>
+            <!-- logo -->
+            <img id="logo" src="images/logo.png" alt="logo">
+            
+            <!-- navigation menu -->
+            <nav>
+                <ul id="navBar">
+                </ul>
+            </nav>
+
+            <!-- dark/light mode -->
+            <button id="darkLightButton" onclick="toggleDarkLight()">
+                <img id="darkLightIcon" src="assets/sun.png" alt="sun">
+            </button>
+
+            <!-- burger button -->
+            <div id="burger">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </header>
+
+        <!-- Content -->
         <script src='js/app.js'></script>
     </body>
 </html>
