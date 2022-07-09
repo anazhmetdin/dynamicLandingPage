@@ -5,10 +5,13 @@
     --dark: #994242;
     --light: #c2a57f;
     --accent: #aac5e2;
+    --white: #effaff;
+    --black: #170000;
 }
 
 html {
-    height: 100%;
+    min-height: 100%;
+    min-width: 15em;
 }
 
 body {
@@ -56,6 +59,31 @@ header {
 
 #darkLightIcon:hover {
     outline: 2px solid var(--accent);
+}
+
+/* burger button */
+#burgerButton {
+    all: unset;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    margin-left: 1em;
+    display: none;
+}
+
+/* small screen */
+@media screen and (max-width: 500px) {
+    #burgerButton {
+        display: block;
+    }
+
+    #navBar {
+        display: none;
+    }
+}
+
+#burgerIcon {
+    width: 1.5em;
 }
 
 /* content */

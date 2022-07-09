@@ -1,12 +1,14 @@
 // change theme icon
 function changeTheme(to) {
-    // icon containing  the image
+    // icons containing the image
     const darkLightIcon = document.getElementById('darkLightIcon');
+    const burgerIcon = document.getElementById('burgerIcon');
     // root containing the color palette
     const root = document.querySelector(':root');
     
     if (to === 'dark') {
         darkLightIcon.setAttribute('src', 'assets/moon.png');
+        burgerIcon.setAttribute('src', 'assets/burgerDark.png');
         document.cookie = "dark=1; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/; SameSite=Lax";
 
         // dark color palette
@@ -18,6 +20,7 @@ function changeTheme(to) {
     
     else if (to === 'light') {
         darkLightIcon.setAttribute('src', 'assets/sun.png');
+        burgerIcon.setAttribute('src', 'assets/burgerLight.png');
         document.cookie = "dark=0; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/; SameSite=Lax";
 
         // light color palette
