@@ -7,8 +7,13 @@
     --accent: #aac5e2;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     background-color: var(--background);
+    height:100%;
     margin: 0;
     display: grid;
     grid-template-areas:
@@ -58,4 +63,19 @@ header {
     margin: 0 auto;
     max-width: 100em;
     grid-area: main;
+}
+
+/* footer */
+footer {
+    background-color: var(--light);
+    color: var(--dark);
+    grid-area: footer;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 100em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 0.5em 1em;
 }
