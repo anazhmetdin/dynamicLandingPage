@@ -1,5 +1,6 @@
+/* variables setub */
 :root {
-    /* light mode */
+    /* dark mode */
     --background: #49656e;
     --dark: #994242;
     --light: #c2a57f;
@@ -9,25 +10,52 @@
 body {
     background-color: var(--background);
     margin: 0;
+    display: grid;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+    grid-template-rows: 3em 1fr 3em;
+    grid-template-columns: 1fr;
 }
 
 header {
     background-color: var(--dark);
     color: var(--light);
+    grid-area: header;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    margin: 0 auto;
+    max-width: 100em;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0.5em 1em;
 }
 
+/* theme button */
 #darkLightButton {
     all: unset;
     width: fit-content;
     height: fit-content;
+    margin-left: auto;
+    display: flex;
 }
 
 #darkLightIcon {
     border-radius: 50%;
     overflow: hidden;
-    width: 2em;
+    width: 1.5em;
 }
 
 #darkLightIcon:hover {
-    border: 2px solid var(--accent);
+    outline: 2px solid var(--accent);
+}
+
+/* content */
+#content {
+    margin: 0 auto;
+    max-width: 100em;
+    grid-area: main;
 }
