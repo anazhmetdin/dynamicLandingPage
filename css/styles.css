@@ -133,7 +133,7 @@ nav {
 }
 
 /* nav small screen */
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 800px) {
     header {
         padding: 0.75em 1em;
         height: fit-content;

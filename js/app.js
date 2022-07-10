@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // add listener to resize the navbar
     window.addEventListener('resize', function () {
         // fix lefty sections when collapsed on large screens
-        if (document.body.clientWidth > 900) {
+        if (window.innerWidth > 900) {
             const collapsed = this.document.querySelectorAll('.section:not(.open)');
             let img, sectionText;
             for (let section of collapsed) {
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // fix navbar after resize
-        if (document.body.clientWidth < 750) {
+        if (window.innerWidth <= 800) {
             navbar.style.flexDirection = 'column';
             toggleBurger(true);
         }
