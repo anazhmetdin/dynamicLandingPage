@@ -53,6 +53,11 @@ nav {
     align-items: center;
 }
 
+.highlighted {
+    border-bottom: solid 5px var(--light);
+    box-sizing: border-box;
+}
+
 #navBar:first-child {
     border-left: solid 1.5px var(--light);
 }

@@ -104,9 +104,27 @@ document.addEventListener('DOMContentLoaded', function () {
     const navbar = document.getElementById('navBar');
     // get the navbar links
     const sections = document.getElementsByClassName('section');
+    // observe sections, and highlight the navbar link when the section is in viewport
+    var NavbarObserver = new IntersectionObserver(function(entries) {
+        for (let entry of entries) {
+            // get the navbar link corresponding to the section
+            const navbarLink = document.getElementById(entry.target.id + "_navLink");
+            if (entry.isIntersecting) {
+                // highlight the navbar link
+                navbarLink.classList.add('highlighted');
+            }
+            else {
+                // unhighlight the navbar link
+                navbarLink.classList.remove('highlighted');
+            }
+        }
+    }, { threshold: [0.2] });
     for (let section of sections) {
+        // add link to the nav bar
         const id = section.id;
-        navbar.innerHTML += `<li><button onclick='scrollToId("${id}")'>${id}</button></li>`;
+        navbar.innerHTML += `<li id="${id}_navLink"><button onclick='scrollToId("${id}")'>${id}</button></li>`;
+        // observe the section
+        NavbarObserver.observe(section);
     }
     //#############################################################################
 });
