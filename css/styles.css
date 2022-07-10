@@ -16,19 +16,6 @@ html {
     color: var(--accent)
 }
 
-body {
-    background-color: var(--background);
-    height:100%;
-    margin: 0;
-    display: grid;
-    grid-template-areas:
-        "header"
-        "main"
-        "footer";
-    grid-template-rows: 3em 1fr 3em;
-    grid-template-columns: 1fr;
-}
-
 header {
     background-color: var(--dark);
     color: var(--light);
@@ -41,7 +28,45 @@ header {
     display: flex;
     align-items: center;
     box-sizing: border-box;
-    padding: 0.5em 1em;
+    padding: 0 1em;
+}
+
+/* nav bar */
+nav {
+    height: 100%;
+}
+
+#navBar {
+    list-style-type: none;
+    margin: 0 2em;
+    padding: 0;
+    height: 100%;
+    display: flex;
+}
+
+#navBar li {
+    border-left: solid 1px var(--light);
+    border-right: solid 1px var(--light);
+    padding: 0 1em;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#navBar:first-child {
+    border-left: solid 1.5px var(--light);
+}
+
+#navBar:last-child {
+    border-right: solid 1.5px var(--light);
+}
+
+#navBar a {
+    color: var(--light);
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: bold;
+    outline: none;
 }
 
 /* theme button */
@@ -88,6 +113,19 @@ header {
     width: 1.5em;
 }
 
+body {
+    background-color: var(--background);
+    height:100%;
+    margin: 0;
+    display: grid;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+    grid-template-rows: 3em 1fr 3em;
+    grid-template-columns: 1fr;
+}
+
 /* content */
 #content {
     grid-area: main;
@@ -119,6 +157,7 @@ header {
     border-radius: 4em;
 }
 
+/* section small screen */
 @media screen and (max-width: 900px) {
     .section {
         flex-wrap: wrap;
@@ -162,6 +201,12 @@ blockquote {
 .author {
     text-align: right;
     margin-bottom: 2em;
+}
+
+.author a {
+    text-decoration: none;
+    outline: none;
+    color: var(--accent);
 }
 
 /* footer */

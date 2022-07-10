@@ -24,10 +24,10 @@ function changeTheme(to) {
         document.cookie = "dark=0; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/; SameSite=Lax";
 
         // light color palette
-        root.style.setProperty('--background', 'lightblue');
+        root.style.setProperty('--background', '#effbff');
         root.style.setProperty('--dark', 'darkred');
         root.style.setProperty('--light', 'burlywood');
-        root.style.setProperty('--accent', 'navy');
+        root.style.setProperty('--accent', '#1e548e');
     }
 }
 
@@ -40,6 +40,19 @@ document.addEventListener('DOMContentLoaded', function () {
     toggleDarkLight(true);
     //#############################################################################
 
+    //#############################################################################
+    // set up the navbar:
+    // get the navbar
+    const navbar = document.getElementById('navBar');
+    // get the navbar links
+    const sections = document.getElementsByClassName('section');
+    for (const section of sections) {
+        // get the link
+        const id = section.id;
+        console.log(id);
+        navbar.innerHTML += `<li><a href="#${id}">${id}</a></li>`;
+    }
+    //#############################################################################
 });
 
 function toggleDarkLight(settingUp = false) {
