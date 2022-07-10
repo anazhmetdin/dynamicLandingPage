@@ -166,7 +166,7 @@ function toggleSection(id) {
             img.parentNode.insertBefore(img, sectionText);
         }
         p.style.display = 'block';
-        img.style.display = 'block';
+        // img.style.display = 'block';
         // change button text
         section.querySelector('span').textContent = "Collapse"
     }
@@ -263,7 +263,9 @@ document.addEventListener('DOMContentLoaded', function () {
             for (let section of collapsed) {
                 img = section.querySelector('img');    
                 sectionText = section.querySelector('.sectionText');
-                section.insertBefore(img, sectionText);
+                if (img.classList.contains('lefty')) {
+                    section.insertBefore(img, sectionText);
+                }
             }
         }
         // fix lefty sections when collapsed on small screens
@@ -273,7 +275,9 @@ document.addEventListener('DOMContentLoaded', function () {
             for (let section of collapsed) {
                 img = section.querySelector('img');    
                 sectionText = section.querySelector('.sectionText');
-                section.insertBefore(sectionText, img);
+                if (img.classList.contains('lefty')) {
+                    section.insertBefore(sectionText, img);
+                }
             }
         }
 
