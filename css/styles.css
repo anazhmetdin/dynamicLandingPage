@@ -209,6 +209,34 @@ blockquote {
     color: var(--accent);
 }
 
+/* scroll up */
+#scrollUpButton {
+    all: unset;
+    width: fit-content;
+    height: fit-content;
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+#scrollUpIcon {
+    width: 2.5em;
+    padding: 0.25em;
+    background-color: var(--dark);
+    border-radius: 50%;
+}
+
+#scrollUpIcon:hover {
+    outline: 2px solid var(--light);
+}
+
+.show {
+    opacity: 1 !important;
+}
+
 /* footer */
 footer {
     background-color: var(--light);
