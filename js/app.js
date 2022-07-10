@@ -46,13 +46,15 @@ function isElementInViewport (element) {
 // show/hide an element
 function showHide(element, show) {
     if (show) {
-        element.style.display = 'block';
+        element.style.display = 'flex';
         setTimeout(function () {
             element.classList.add('show');
+            element.classList.remove('hide');
         }, 500);
     }
     else {
         element.classList.remove('show');
+        element.classList.add('hide');
         setTimeout(function () {
             element.style.display = 'none';
         }, 500);
@@ -69,6 +71,25 @@ function scrollToId(id) {
         element = document.getElementById(id);
     }
     element.scrollIntoView({behavior: 'smooth'});
+}
+
+const isTouch = matchMedia('(hover: none)').matches;
+let hidingHeader = false;
+// function to hide header
+function hideHeader(header) {
+    // check if header is not already waiting to be hidden 
+    // check if document is not at the top
+    if (!isTouch && !hidingHeader && document.documentElement.scrollTop > 0) {
+        hidingHeader = true;
+        const currentScrollPos = document.documentElement.scrollTop;
+        // wait, then hide the header if the scroll position didn't change
+        setTimeout(function () {
+            if (currentScrollPos === document.documentElement.scrollTop) {
+                showHide(header, false);
+            }
+            hidingHeader = false;
+        }, 2500);
+    }
 }
 
 // once the document is loaded
@@ -127,6 +148,30 @@ document.addEventListener('DOMContentLoaded', function () {
         NavbarObserver.observe(section);
     }
     //#############################################################################
+
+    //#############################################################################
+    // auto hide the header:
+    // only if device is not touch
+    if (!isTouch) {
+        // get the header
+        const header = document.getElementsByTagName('header')[0];
+        // listen to scroll events
+        document.addEventListener('scroll', function () {
+            // show the header
+            showHide(header, true);
+            // record the current scroll position
+            hideHeader(header);
+        });
+        // show the header when mouse is moving over the header
+        document.addEventListener('mousemove', function (e) {
+            if (e.clientY < 200) {
+                showHide(header, true);
+            }
+            else if (e.clientY != 0) {
+                hideHeader(header);
+            }
+        });
+    }
 });
 
 function toggleDarkLight(settingUp = false) {
