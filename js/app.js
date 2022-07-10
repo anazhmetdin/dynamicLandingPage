@@ -73,22 +73,59 @@ function scrollToId(id) {
     element.scrollIntoView({behavior: 'smooth'});
 }
 
+// check if user is on mobile
 const isTouch = matchMedia('(hover: none)').matches;
+// keep track of opening/closing the menu
 let hidingHeader = false;
+// keep track of cursor over header
+let onHeader = false;
 // function to hide header
 function hideHeader(header) {
     // check if header is not already waiting to be hidden 
     // check if document is not at the top
-    if (!isTouch && !hidingHeader && document.documentElement.scrollTop > 0) {
+    if (!onHeader && !isTouch && !hidingHeader && document.documentElement.scrollTop > 0) {
         hidingHeader = true;
         const currentScrollPos = document.documentElement.scrollTop;
-        // wait, then hide the header if the scroll position didn't change
         setTimeout(function () {
             if (currentScrollPos === document.documentElement.scrollTop) {
-                showHide(header, false);
+                if (!onHeader)
+                    showHide(header, false);
+                hidingHeader = false;
             }
-            hidingHeader = false;
-        }, 2500);
+            else {
+                hidingHeader = false;
+                hideHeader(header);
+            }
+        }, 3000);
+    }
+}
+
+// function to expand/collapse the menu
+function toggleBurger(forceClose=false) {
+    // get burger icon
+    const burgerIcon = document.getElementById('burgerIcon');
+    // get ul menu
+    const navBar = document.getElementById('navBar');
+    // if open, close the menu
+    if (forceClose || burgerIcon.classList.contains('open')) {
+        burgerIcon.classList.remove('open');
+        if (darkMode) {
+            burgerIcon.setAttribute('src', 'assets/BurgerDark.png');
+        } else {
+            burgerIcon.setAttribute('src', 'assets/BurgerLight.png');
+        }
+        navBar.style.display = 'none';
+    }
+    // else, open the menu
+    else {
+        burgerIcon.classList.add('open');
+        if (darkMode) {
+            burgerIcon.setAttribute('src', 'assets/closeBurgerDark.png');
+        } else {
+            burgerIcon.setAttribute('src', 'assets/closeBurgerLight.png');
+        }
+        navBar.style.display = 'flex';
+        navBar.style.flexDirection = 'column';
     }
 }
 
@@ -147,6 +184,17 @@ document.addEventListener('DOMContentLoaded', function () {
         // observe the section
         NavbarObserver.observe(section);
     }
+    // add listener to resize the navbar
+    window.addEventListener('resize', function () {
+        if (document.body.clientWidth < 750) {
+            navbar.style.flexDirection = 'column';
+            toggleBurger(true);
+        }
+        else {
+            navbar.style.display = 'flex';
+            navbar.style.flexDirection = 'row';
+        }
+    });
     //#############################################################################
 
     //#############################################################################
@@ -155,12 +203,23 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!isTouch) {
         // get the header
         const header = document.getElementsByTagName('header')[0];
+        // add listener header mouse
+        header.onmouseenter = () => {
+            onHeader = true
+            console.log(onHeader)
+        }
+        header.onmouseleave = () => {
+            onHeader = false
+            console.log(onHeader)
+        }
         // listen to scroll events
         document.addEventListener('scroll', function () {
             // show the header
             showHide(header, true);
-            // record the current scroll position
-            hideHeader(header);
+            // hide the header if the cursor is not on the header
+            if (!onHeader) {
+                hideHeader(header);
+            }
         });
         // show the header when mouse is moving over the header
         document.addEventListener('mousemove', function (e) {
@@ -174,10 +233,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+let darkMode = true;
 function toggleDarkLight(settingUp = false) {
     // if first time, set the theme to light
     if (document.cookie.indexOf("dark=") < 0) {
         changeTheme('light');
+        darkMode = false;
     }
     else {
         // get all cookies
@@ -190,8 +251,10 @@ function toggleDarkLight(settingUp = false) {
                     // if setting up, do not change theme
                     if (settingUp) {
                         changeTheme('light');
+                        darkMode = false;
                     } else {
                         changeTheme('dark');
+                        darkMode = true;
                     }
                 }
                 // else, dark mode is on
@@ -199,8 +262,10 @@ function toggleDarkLight(settingUp = false) {
                     // if setting up, do not change theme
                     if (settingUp) {
                         changeTheme('dark');
+                        darkMode = true;
                     } else {
                         changeTheme('light');
+                        darkMode = false;
                     }
                 }
                 break;

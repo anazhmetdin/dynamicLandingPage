@@ -51,7 +51,6 @@ nav {
 }
 
 #navBar li {
-    border-left: solid 1px var(--light);
     border-right: solid 1px var(--light);
     padding: 0;
     height: 100%;
@@ -65,11 +64,7 @@ nav {
 }
 
 #navBar:first-child {
-    border-left: solid 1.5px var(--light);
-}
-
-#navBar:last-child {
-    border-right: solid 1.5px var(--light);
+    border-left: solid 1px var(--light);
 }
 
 #navBar button {
@@ -80,6 +75,7 @@ nav {
     font-weight: bold;
     outline: none;
     padding: 0.7em;
+    width: 100%;
 }
 
 #navBar button:hover {
@@ -111,15 +107,36 @@ nav {
     all: unset;
     width: fit-content;
     height: fit-content;
-    display: flex;
     margin-left: 1em;
     display: none;
 }
 
 /* nav small screen */
 @media screen and (max-width: 750px) {
+    header {
+        padding: 0.75em 1em;
+        height: fit-content;
+        min-height: 3em;
+        align-items: flex-start;
+    }
+
+    #navBar li {
+        border-left: solid 1px var(--light);
+        border-right: 0;
+    }
+    
+    .highlighted {
+        border-left: solid 5px var(--light) !important;
+        border-bottom: 0;
+    }
+
+    #navBar:first-child {
+        border-left: 0;
+    }
+
     #burgerButton {
-        display: block;
+        display: flex;
+        align-items: center;
     }
 
     #navBar {
