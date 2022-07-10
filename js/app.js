@@ -4,6 +4,7 @@ function changeTheme(to) {
     const darkLightIcon = document.getElementById('darkLightIcon');
     const burgerIcon = document.getElementById('burgerIcon');
     const scrollUpIcon = document.getElementById('scrollUpIcon');
+    const logo = document.getElementById('logo');
     // root containing the color palette
     const root = document.querySelector(':root');
     
@@ -11,6 +12,7 @@ function changeTheme(to) {
         darkLightIcon.setAttribute('src', 'assets/moon.png');
         burgerIcon.setAttribute('src', 'assets/burgerDark.png');
         scrollUpIcon.setAttribute('src', 'assets/upDark.png');
+        logo.setAttribute('src', 'assets/logoDark.png');
         document.cookie = "dark=1; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/; SameSite=Lax";
 
         // dark color palette
@@ -24,6 +26,7 @@ function changeTheme(to) {
         darkLightIcon.setAttribute('src', 'assets/sun.png');
         burgerIcon.setAttribute('src', 'assets/burgerLight.png');
         scrollUpIcon.setAttribute('src', 'assets/upLight.png');
+        logo.setAttribute('src', 'assets/logoLight.png');
         document.cookie = "dark=0; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/; SameSite=Lax";
 
         // light color palette

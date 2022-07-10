@@ -33,6 +33,10 @@ header {
     transition: opacity 0.2s ease-in-out;
 }
 
+#logo {
+    height: 2.25em;
+}
+
 .hide {
     opacity: 0 !important;
 }
