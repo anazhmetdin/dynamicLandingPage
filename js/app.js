@@ -46,7 +46,6 @@ function isElementInViewport (element) {
 // show/hide an element
 function showHide(element, show) {
     if (show) {
-
         element.style.display = 'block';
         setTimeout(function () {
             element.classList.add('show');
@@ -67,7 +66,7 @@ function scrollToId(id) {
         element = document.body;
     }
     else {
-        document.getElementById(id);
+        element = document.getElementById(id);
     }
     element.scrollIntoView({behavior: 'smooth'});
 }
@@ -107,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const sections = document.getElementsByClassName('section');
     for (let section of sections) {
         const id = section.id;
-        navbar.innerHTML += `<li><a href="#${id}">${id}</a></li>`;
+        navbar.innerHTML += `<li><button onclick='scrollToId("${id}")'>${id}</button></li>`;
     }
     //#############################################################################
 });

@@ -47,7 +47,7 @@ nav {
 #navBar li {
     border-left: solid 1px var(--light);
     border-right: solid 1px var(--light);
-    padding: 0 1em;
+    padding: 0;
     height: 100%;
     display: flex;
     align-items: center;
@@ -61,12 +61,19 @@ nav {
     border-right: solid 1.5px var(--light);
 }
 
-#navBar a {
+#navBar button {
+    all: unset;
     color: var(--light);
     text-decoration: none;
     font-size: 1.1em;
     font-weight: bold;
     outline: none;
+    padding: 0.7em;
+}
+
+#navBar button:hover {
+    background-color: var(--light);
+    color: var(--dark);
 }
 
 /* theme button */
@@ -99,7 +106,7 @@ nav {
 }
 
 /* nav small screen */
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 750px) {
     #burgerButton {
         display: block;
     }
