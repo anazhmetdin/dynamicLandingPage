@@ -47,20 +47,20 @@ function isElementInViewport (element) {
 }
 
 // show/hide an element
-function showHide(element, show) {
+function showHide(element, show, delay=500) {
     if (show) {
         element.style.display = 'flex';
         setTimeout(function () {
             element.classList.add('show');
             element.classList.remove('hide');
-        }, 500);
+        }, delay);
     }
     else {
         element.classList.remove('show');
         element.classList.add('hide');
         setTimeout(function () {
             element.style.display = 'none';
-        }, 500);
+        }, delay);
     }
 }
 
@@ -99,7 +99,7 @@ function hideHeader(header) {
                 hidingHeader = false;
                 hideHeader(header);
             }
-        }, 3000);
+        }, 1500);
     }
 }
 
@@ -130,6 +130,53 @@ function toggleBurger(forceClose=false) {
         navBar.style.display = 'flex';
         navBar.style.flexDirection = 'column';
     }
+}
+
+// listen to section animations
+function listenToSectionAnimations() {
+    // get all sections
+    const sections = document.getElementsByClassName('section');
+    
+}
+            
+
+// function to expand/collapse main sections
+function toggleSection(id) {
+    // get section
+    const section = document.getElementById(id);
+    // check if section is open
+    const open = section.classList.contains('open');
+    // get children of section      
+    const p = section.querySelector('blockquote');
+    const img = section.querySelector('img');    
+    const sectionText = section.querySelector('.sectionText');
+
+    if (open) {
+        // change class to startion transition
+        section.classList.remove('open');
+        // change button text
+        section.querySelector('span').textContent = "Expand"
+    }
+    else {
+        // change class to startion transition
+        section.classList.add('open');
+        // display the hidden childern
+        // correc order
+        if (img.classList.contains('lefty') && document.documentElement.clientWidth < 900) {
+            img.parentNode.insertBefore(img, sectionText);
+        }
+        p.style.display = 'block';
+        img.style.display = 'block';
+        // change button text
+        section.querySelector('span').textContent = "Collapse"
+    }
+}
+
+function adjustScrollToTopButton() {
+    // adjust scroll to top button
+    const scrollUpButton = document.getElementById('scrollUpButton');
+    // place it at the right edge of the body
+    scrollUpButton.style.right = `${document.body.getBoundingClientRect().left + 16}px`;
 }
 
 // once the document is loaded
@@ -180,15 +227,57 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }, { threshold: [0.2] });
+    
+    // function to listien for section animations end, and toggle internal items
+    function toggleItems (e) {
+        // get target children of the section
+        const p = e.target.querySelector('blockquote');
+        const sectionText = e.target.querySelector('.sectionText');
+        const img = e.target.querySelector('img');
+        // remove childrens after animation if section is closed
+        if (!e.target.classList.contains('open')) {
+            p.style.display = 'none';
+            // img.style.display = 'none';
+            if (img.classList.contains('lefty') && document.documentElement.clientWidth < 900) {
+                img.parentNode.insertBefore(sectionText, img);
+            }
+        }
+    }
+
+    // for each section
     for (let section of sections) {
         // add link to the nav bar
         const id = section.id;
         navbar.innerHTML += `<li id="${id}_navLink"><button onclick='scrollToId("${id}")'>${id}</button></li>`;
         // observe the section
         NavbarObserver.observe(section);
+        // listen to section animations end
+        section.addEventListener('transitionend', toggleItems);
     }
     // add listener to resize the navbar
     window.addEventListener('resize', function () {
+        // fix lefty sections when collapsed on large screens
+        if (document.body.clientWidth > 900) {
+            const collapsed = this.document.querySelectorAll('.section:not(.open)');
+            let img, sectionText;
+            for (let section of collapsed) {
+                img = section.querySelector('img');    
+                sectionText = section.querySelector('.sectionText');
+                section.insertBefore(img, sectionText);
+            }
+        }
+        // fix lefty sections when collapsed on small screens
+        else {
+            const collapsed = this.document.querySelectorAll('.section:not(.open)');
+            let img, sectionText;
+            for (let section of collapsed) {
+                img = section.querySelector('img');    
+                sectionText = section.querySelector('.sectionText');
+                section.insertBefore(sectionText, img);
+            }
+        }
+
+        // fix navbar after resize
         if (document.body.clientWidth < 750) {
             navbar.style.flexDirection = 'column';
             toggleBurger(true);
@@ -197,6 +286,8 @@ document.addEventListener('DOMContentLoaded', function () {
             navbar.style.display = 'flex';
             navbar.style.flexDirection = 'row';
         }
+
+        adjustScrollToTopButton();
     });
     //#############################################################################
 
@@ -209,11 +300,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // add listener header mouse
         header.onmouseenter = () => {
             onHeader = true
-            console.log(onHeader)
         }
         header.onmouseleave = () => {
             onHeader = false
-            console.log(onHeader)
         }
         // listen to scroll events
         document.addEventListener('scroll', function () {
@@ -229,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (e.clientY < 200) {
                 showHide(header, true);
             }
-            else if (e.clientY != 0) {
+            else {
                 hideHeader(header);
             }
         });
