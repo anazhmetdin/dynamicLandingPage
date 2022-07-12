@@ -1,0 +1,22 @@
+{
+  "name": "dynamiclandingpage",
+  "version": "1.0.0",
+  "description": "dynamic landing page powered by js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anazhmetdin/dynamicLandingPage.git"
+  },
+  "author": "anazhmetdin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anazhmetdin/dynamicLandingPage/issues"
+  },
+  "homepage": "https://github.com/anazhmetdin/dynamicLandingPage#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
