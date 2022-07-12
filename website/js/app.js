@@ -124,9 +124,9 @@ function toggleBurger(forceClose=false) {
     if (forceClose || BURGER_ICON.classList.contains('open')) {
         BURGER_ICON.classList.remove('open');
         if (darkMode) {
-            BURGER_ICON.setAttribute('src', 'assets/BurgerDark.png');
+            BURGER_ICON.setAttribute('src', 'assets/burgerDark.png');
         } else {
-            BURGER_ICON.setAttribute('src', 'assets/BurgerLight.png');
+            BURGER_ICON.setAttribute('src', 'assets/burgerLight.png');
         }
         NAV_BAR.style.display = 'none';
     }
