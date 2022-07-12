@@ -65,13 +65,13 @@ function showHide(element, show, delay=500) {
 }
 
 // scroll to function
-function scrollToId(id) {
+function scrollToId(id="") {
     let element;
-    if (id === "") {
-        element = document.body;
+    if (typeof id === 'string') {
+        element = document.getElementById(id);
     }
     else {
-        element = document.getElementById(id);
+        element = document.body;
     }
     element.scrollIntoView({behavior: 'smooth'});
 }
@@ -179,6 +179,47 @@ function adjustScrollToTopButton() {
     scrollUpButton.style.right = `${document.body.getBoundingClientRect().left + 16}px`;
 }
 
+let darkMode = true;
+function toggleDarkLight(settingUp = false) {
+    // if first time, set the theme to light
+    if (document.cookie.indexOf("dark=") < 0) {
+        changeTheme('light');
+        darkMode = false;
+    }
+    else {
+        // get all cookies
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            // search for dark cookie
+            if (cookie.indexOf("dark=") >= 0) {
+                // if dark cookie is set, check if dark mode is off
+                if (cookie.split('=')[1] == '0') {
+                    // if setting up, do not change theme
+                    if (settingUp === true) {
+                        changeTheme('light');
+                        darkMode = false;
+                    } else {
+                        changeTheme('dark');
+                        darkMode = true;
+                    }
+                }
+                // else, dark mode is on
+                else {
+                    // if setting up, do not change theme
+                    if (settingUp === true) {
+                        changeTheme('dark');
+                        darkMode = true;
+                    } else {
+                        changeTheme('light');
+                        darkMode = false;
+                    }
+                }
+                break;
+            }
+        }
+    }
+}
+
 // once the document is loaded
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -193,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const scrollUpButton = document.getElementById('scrollUpButton');
     // get first element in the content
     const firstElement = document.getElementById('content').firstElementChild;
-    var ScrollUppObserver = new IntersectionObserver(function(entries) {
+    const ScrollUppObserver = new IntersectionObserver(function(entries) {
         // display the scroll to top button if the first element is not in viewport
         if (entries[0].isIntersecting) {
             showHide(scrollUpButton, false)
@@ -213,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // get the navbar links
     const sections = document.getElementsByClassName('section');
     // observe sections, and highlight the navbar link when the section is in viewport
-    var NavbarObserver = new IntersectionObserver(function(entries) {
+    const NavbarObserver = new IntersectionObserver(function(entries) {
         for (let entry of entries) {
             // get the navbar link corresponding to the section
             const navbarLink = document.getElementById(entry.target.id + "_navLink");
@@ -248,34 +289,30 @@ document.addEventListener('DOMContentLoaded', function () {
     for (let section of sections) {
         // add link to the nav bar
         const id = section.id;
-        navbar.innerHTML += `<li id="${id}_navLink"><button onclick='scrollToId("${id}")'>${id}</button></li>`;
+        navbar.innerHTML += `<li id="${id}_navLink"><button>${id}</button></li>`;
         // observe the section
         NavbarObserver.observe(section);
         // listen to section animations end
         section.addEventListener('transitionend', toggleItems);
     }
+    for (let link of navbar.children) {
+        // add event listener to the navbar button
+        link.addEventListener('click', scrollToId.bind(null, link.textContent));
+    }
+
     // add listener to resize the navbar
     window.addEventListener('resize', function () {
-        // fix lefty sections when collapsed on large screens
-        if (window.innerWidth > 900) {
-            const collapsed = this.document.querySelectorAll('.section:not(.open)');
-            let img, sectionText;
-            for (let section of collapsed) {
-                img = section.querySelector('img');    
-                sectionText = section.querySelector('.sectionText');
-                if (img.classList.contains('lefty')) {
+        const collapsed = this.document.querySelectorAll('.section:not(.open)');
+        let img, sectionText;
+        // fix lefty sections when collapsed
+        for (let section of collapsed) {
+            img = section.querySelector('img');    
+            sectionText = section.querySelector('.sectionText');
+            if (img.classList.contains('lefty')) {
+
+                if (window.innerWidth > 900) {
                     section.insertBefore(img, sectionText);
-                }
-            }
-        }
-        // fix lefty sections when collapsed on small screens
-        else {
-            const collapsed = this.document.querySelectorAll('.section:not(.open)');
-            let img, sectionText;
-            for (let section of collapsed) {
-                img = section.querySelector('img');    
-                sectionText = section.querySelector('.sectionText');
-                if (img.classList.contains('lefty')) {
+                } else {
                     section.insertBefore(sectionText, img);
                 }
             }
@@ -327,45 +364,18 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+    //#############################################################################
+    
+    //#############################################################################
+    // add click listeners
+    // dark/light mode
+    document.getElementById('darkLightButton').addEventListener('click', toggleDarkLight);
+    // burger menu
+    document.getElementById('burgerButton').addEventListener('click', toggleBurger.bind(null, false));
+    // collapse/expand sections
+    for (let section of sections) {
+        section.querySelector('button').addEventListener('click', toggleSection.bind(null, section.id));
+    }
+    // scroll to top
+    scrollUpButton.addEventListener('click', scrollToId);
 });
-
-let darkMode = true;
-function toggleDarkLight(settingUp = false) {
-    // if first time, set the theme to light
-    if (document.cookie.indexOf("dark=") < 0) {
-        changeTheme('light');
-        darkMode = false;
-    }
-    else {
-        // get all cookies
-        const cookies = document.cookie.split(';');
-        for (let cookie of cookies) {
-            // search for dark cookie
-            if (cookie.indexOf("dark=") >= 0) {
-                // if dark cookie is set, check if dark mode is off
-                if (cookie.split('=')[1] == '0') {
-                    // if setting up, do not change theme
-                    if (settingUp) {
-                        changeTheme('light');
-                        darkMode = false;
-                    } else {
-                        changeTheme('dark');
-                        darkMode = true;
-                    }
-                }
-                // else, dark mode is on
-                else {
-                    // if setting up, do not change theme
-                    if (settingUp) {
-                        changeTheme('dark');
-                        darkMode = true;
-                    } else {
-                        changeTheme('light');
-                        darkMode = false;
-                    }
-                }
-                break;
-            }
-        }
-    }
-}
